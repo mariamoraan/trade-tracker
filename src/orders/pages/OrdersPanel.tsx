@@ -1,7 +1,8 @@
+import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Form } from "../../common/components/Form";
 import { IForm, InputOnChangeElement } from "../../common/types/IForm";
 import { useAppSelector } from '../../redux/hooks';
@@ -37,16 +38,21 @@ const Subtitle = styled.p`
     color: var(--secondary-color);
 `
 
-const AddButton = styled.button`
-    padding: 12px 24px;
+const AddButton = styled.button<{hasClick: boolean}>`
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: var(--accent-color-100);
     color: var(--accent-color);
     border: 1px solid var(--accent-color);
-    border-radius: 8px;
+    border-radius: 100%;
     font-weight: bold;
     cursor: pointer;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     text-wrap: no-wrap;
+    transition: 500ms ease;
+    transform: ${props => props.hasClick ? 'rotate(180deg)' : 'rotate(0)'};
 `
 
 const FilterMenu = styled.div`
@@ -71,10 +77,18 @@ const OrdersList = styled.div`
 
 const DayAndOrder = styled.div``
 
+const onAppear = keyframes`
+ 0% {transform: scale(0.6);}
+ 100% {opacity: scale(1);}
+`
+
 const DayText = styled.h2`
     margin-bottom: 12px;
     font-size: 0.8rem;
     text-transform: uppercase;
+    transform-origin: center left;
+    animation-name: ${onAppear};
+    animation-duration: 500ms;
 `
 
 const BottomMenu = styled.div<{isMenuOpen: boolean}>`
@@ -229,7 +243,11 @@ const OrdersPanel = () => {
                     <Title>{t("orders")}</Title>
                     <Subtitle>{companyName}</Subtitle>
                 </DaySelector>
-                <AddButton onClick={() => setIsMenuOpen(prev => !prev)}>{t("add_order")}</AddButton>
+                <AddButton 
+                hasClick={isMenuOpen}
+                onClick={() => setIsMenuOpen(prev => !prev)}>
+                    <AddIcon />
+                </AddButton>
             </TopMenu>
             <FilterMenu>
                 {

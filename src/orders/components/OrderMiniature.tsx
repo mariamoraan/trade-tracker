@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { useTranslation } from "react-i18next";
 import styled, { keyframes } from "styled-components";
 
-import { FILTERS } from '../pages/OrdersPanel';
 import { dateToFormattedStringOrDay, stringToFormattedDate } from "../utils/dates";
 import { deleteOrder } from '../utils/ordersManager';
 import { EditableOrderMiniature } from './EditableOrderMiniature';
@@ -28,7 +27,7 @@ export interface IOrder {
 }
 
 const onAppear = keyframes`
- 0% {transform: scale(0.5);}
+ 0% {transform: scale(0.6);}
  100% {opacity: scale(1);}
 `
 
@@ -40,7 +39,7 @@ const Wrapper = styled.div<{hasNormalOpacity: boolean}>`
     transform-origin: center left;
     animation-name: ${onAppear};
     animation-duration: 500ms;
-    opacity: ${props => props.hasNormalOpacity ? '1' : '0.5'};
+    opacity: ${props => props.hasNormalOpacity ? '1' : '0.6'};
     transition: 500ms ease;
 `
 
@@ -57,7 +56,7 @@ const MenuWrapper = styled.div`
     font-weight: bold;
 `
 
-const MenuButton = styled.button`
+const MenuButton = styled.button<{isVisible: boolean}>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,6 +65,7 @@ const MenuButton = styled.button`
     outline: none;
     cursor: pointer;
     color: var(--primary-color-light);
+    visibility: ${props => props.isVisible ? 'visible' : 'hidden'}
 `
 
 const TopWrapper = styled.div`
@@ -203,7 +203,7 @@ const OrderMiniatureVisual = (props: VisualModeProps) => {
         setIsMenuOpen(false)
     }
     return (
-        <Wrapper hasNormalOpacity={!(isClosed &&  (props.appliedFilter === FILTERS.ALL))}>
+        <Wrapper hasNormalOpacity={!(isClosed)}>
             <OrderMenu 
             isOpen={isMenuOpen} 
             close={() => {setIsMenuOpen(false)}} 
@@ -216,6 +216,7 @@ const OrderMiniatureVisual = (props: VisualModeProps) => {
                     <Text>{dateToFormattedStringOrDay(deliveryDate, i18n.language)}</Text>
                 </Date>
                 <MenuButton 
+                isVisible={!isMenuOpen}
                 onClick={() => {setIsMenuOpen(true)}} 
                 >
                     <MoreHorizIcon />

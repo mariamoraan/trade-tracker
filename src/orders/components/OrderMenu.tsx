@@ -6,42 +6,48 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 const Wrapper = styled.div<{isOpen: boolean}>`
+    padding: 4px;
     position: absolute;
     top: 0;
     right: 0;
     display: flex;
     flex-direction: column;
+    gap: 8px;
     transition: 500ms ease;
     transform-origin: top right;
     transform: ${props => props.isOpen ? 'scale(1)' : 'scale(0.2)'};
     z-index: ${props => props.isOpen ? 10 : -10};
-    background: var(--primary-color-light);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    border-radius: 0 8px 0 0;
+    background: none;
 `
 const CloseIconWrapper = styled.button`
-    padding: 0 4px;
+    max-width: fit-content;
+    padding: 0px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    align-self: flex-end;
     border: none;
     outline: none;
     background: none;
-    font-size: 4px;
+    background: var(--primary-color-light);
+    border-radius: 100%;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 `
 
 const Button = styled.button`
-    padding: 12px 4px;
+    max-width: fit-content;
+    padding: 4px 4px;
     min-width: 140px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 5px;
     border: none;
+    border-radius: 8px;
     outline: none;
-    background: none;
     font-size: 14px;
-    border-top: 1px solid var(--secondary-color-100);
+    background: var(--primary-color-light);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 `
 
 const Icon = styled.div<{color: string}>`
