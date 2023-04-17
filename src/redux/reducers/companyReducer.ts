@@ -19,5 +19,6 @@ export const companySlice = createSlice({
 export const selectCompany = (state: ICompanySlice): ICompany | null => state.company
 export const selectCompanyName = (state: ICompanySlice): string | null => state.company?.name || null
 export const selectCompanyEmployees = (state: ICompanySlice): string[] | [] => state.company?.employees || []
+export const selectCompanyOrdersNumber = (state: ICompanySlice): number => state.company?.ordersNumber || 0
 
 export default companySlice.reducer

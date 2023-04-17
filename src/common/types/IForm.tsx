@@ -9,6 +9,7 @@ export interface IInput {
     pattern?: string,
     checked?: boolean,
     required: boolean,
+    placeholder?: string,
     onChange?: (e: InputOnChangeElement) => void,
     onClick?: () => void
 }

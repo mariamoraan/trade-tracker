@@ -117,14 +117,15 @@ export const FILTERS = {
     ALL: "ALL",
 }
 
-const initialState = {
+const initialState: IOrder = {
     id: "default_id",
     isClosed: false,
     title: "",
     description: "",
     deliveryDate: "",
     client: {name: "", phone: ""},
-    price: ''
+    price: '',
+    orderNumber: 0,
 }
 
 
@@ -208,6 +209,7 @@ const OrdersPanel = () => {
                     type: "text",
                     required: false,
                     onChange: (e: InputOnChangeElement) => setOrderForm(prev => ({...prev, price: e.target.value})),
+                    placeholder: t("placeholder_price") || '24.99€',
                 }
             },
             {
@@ -227,9 +229,10 @@ const OrdersPanel = () => {
                 input: {
                     name: "clientPhone",
                     value: orderForm.client.phone,
-                    type: "phone",
+                    type: "tel",
                     required: true,
                     onChange: (e: InputOnChangeElement) => setOrderForm(prev => ({...prev, client: {...prev.client, phone: e.target.value}})),
+                    placeholder: '695735105',
                 }
             },
         ],

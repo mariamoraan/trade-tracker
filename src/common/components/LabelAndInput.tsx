@@ -21,12 +21,13 @@ const Input = styled.input`
 `
 
 export const LabelAndInput = (props: ILabelAndInput) => {
-    const {name, value, type, pattern, required, onChange, onClick} = props.input
+    const {name, value, type, pattern, required, onChange, onClick, placeholder} = props.input
     return (
         <Wrapper>
             <Label htmlFor={name}>{props.label}</Label>
             <Input 
             value={value} 
+            placeholder={placeholder}
             required={required} 
             type={type} 
             name={name} 

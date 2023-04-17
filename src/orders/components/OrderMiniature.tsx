@@ -24,6 +24,7 @@ export interface IOrder {
     deliveryDate: string,
     client: IClient,
     price?: string,
+    orderNumber: number,
 }
 
 const onAppear = keyframes`
@@ -189,17 +190,18 @@ type VisualModeProps = {
 
 const OrderMiniatureVisual = (props: VisualModeProps) => {
     const {t, i18n} = useTranslation()
-    const {title, description, deliveryDate, isClosed, client, id, price} = props.order
+    const {description, deliveryDate, isClosed, client, id, price, orderNumber} = props.order
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const onCopy = () => {
         let date = t(stringToFormattedDate(deliveryDate, i18n.language))
         const text = `${t("order_print", {
             clientName: client.name,
             orderDelivery: date,
-            orderDescription: description
+            orderDescription: description,
+            interpolation: {escapeValue: false}
         })}`
         // stringToFormattedDate(deliveryDate, i18n.language)
-        navigator.clipboard.writeText(text.replaceAll('&#x2F;', '/'))
+        navigator.clipboard.writeText(text)
         setIsMenuOpen(false)
     }
     return (
@@ -229,7 +231,7 @@ const OrderMiniatureVisual = (props: VisualModeProps) => {
                 : null
                 }
                 <TopSideWrapper>
-                    <Title>{title}</Title>
+                    <Title>#{orderNumber}</Title>
                     <DeliveryButton 
                     onClick={() => props.onClick(id)} 
                     isClosed={isClosed}>

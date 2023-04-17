@@ -36,7 +36,7 @@ const CloseIconWrapper = styled.button`
 
 const Button = styled.button`
     max-width: fit-content;
-    padding: 4px 4px;
+    padding: 8px 4px;
     min-width: 140px;
     display: flex;
     justify-content: flex-start;

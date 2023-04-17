@@ -2,21 +2,12 @@ import { useState } from 'react';
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { updateOrder } from '../utils/ordersManager';
+import { IOrder } from './OrderMiniature';
 
 interface IClient {
     name: string,
     phone: string,
     icon?: string,
-}
-
-export interface IOrder {
-    id: string,
-    isClosed: boolean,
-    title: string,
-    description: string,
-    deliveryDate: string,
-    client: IClient,
-    price?: string,
 }
 
 const Wrapper = styled.div`
@@ -84,12 +75,11 @@ const Price = styled.input`
     font-size: 14px;
 `
 
-const Title = styled.input`
+const Title = styled.p`
     font-size: 1rem;
     font-weight: bold;
     flex: 1;
     border: none;
-    border-bottom: 1px solid black;
 `
 const Description = styled.textarea`
     padding: 8px;
@@ -160,7 +150,7 @@ type EditModeProps = {
 
 export const EditableOrderMiniature = (props: EditModeProps) => {
     const {t, i18n} = useTranslation()
-    const {title, description, deliveryDate, isClosed, client, id, price} = props.order
+    const {title, description, deliveryDate, isClosed, client, id, price, orderNumber} = props.order
     const [order, setOrder] = useState<IOrder>({
         id: id,
         isClosed: isClosed,
@@ -169,6 +159,7 @@ export const EditableOrderMiniature = (props: EditModeProps) => {
         deliveryDate: deliveryDate,
         client: client,
         price: price,
+        orderNumber: orderNumber
     })
     const onFinish = async() => {
         await updateOrder(order)
@@ -196,7 +187,7 @@ export const EditableOrderMiniature = (props: EditModeProps) => {
                     />
                 </PriceWrapper>
                 <TopSideWrapper>
-                    <Title type="text" value={order.title} onChange={(e) => setOrder(prev => ({...prev, title: e.target.value}))} />
+                    <Title>#{order.orderNumber}</Title>
                 </TopSideWrapper>
                 <Description rows={10} value={order.description} onChange={(e) => setOrder(prev => ({...prev, description: e.target.value}))}  />
             </TopWrapper>

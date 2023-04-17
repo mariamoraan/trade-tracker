@@ -1,19 +1,24 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query, updateDoc, where } from "firebase/firestore";
 import i18n from 'i18next';
+import { getCompany, updateCompany } from "../../company/utils/companiesManager";
 import { db } from "../../firebase";
 import { IOrder } from "../components/OrderMiniature";
 
-export const addOrder = async(order: IOrder, company: string) => {
+export const addOrder = async(order: IOrder, companyId: string) => {
+    const company = await getCompany(companyId)
+    if(!company) return
     const newOrder = {
-        company: company,
+        company: companyId,
         isClosed: order.isClosed, 
         title: `${i18n.t("order_title", {clientName: order.client.name})}`, 
         description: order.description, 
         deliveryDate: order.deliveryDate, 
         client: order.client,
-        price: order.price || null
+        price: order.price || null,
+        orderNumber: company.ordersNumber + 1 || 1
     }
     const docRef = await addDoc(collection(db, 'orders'), newOrder)
+    await updateCompany({...company, ordersNumber: company?.ordersNumber + 1 || 1})
 }
 
 export const getOrders = async(company: string) => {
@@ -31,6 +36,7 @@ export const getOrders = async(company: string) => {
                 deliveryDate: doc.data().deliveryDate,
                 client: doc.data().client,
                 price: doc.data().price || null,
+                orderNumber: doc.data().orderNumber
             }
         )
     });
@@ -45,7 +51,8 @@ export const updateOrder = async(order: IOrder) => {
         description: order.description,
         deliveryDate: order.deliveryDate,
         client: order.client,
-        price: order.price || null
+        price: order.price || null,
+        orderNumber: order.orderNumber
     })
 }
 
@@ -68,6 +75,7 @@ export const ordersSnapshot = (company: string | undefined, update: (orders: IOr
                 deliveryDate: doc.data().deliveryDate,
                 client: doc.data().client,
                 price: doc.data().price || null,
+                orderNumber: doc.data().orderNumber
             }
         );
     });

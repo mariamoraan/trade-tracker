@@ -92,7 +92,8 @@ const NewCompany = () => {
             ownerId: user.id,
             name: companyName,
             employees: [user.id],
-            id: user.id
+            id: user.id,
+            ordersNumber: 0,
         })
         await updateUser({...user, company: companyId, onboardState: NEXT_STEP.FINISHED})
     } 
