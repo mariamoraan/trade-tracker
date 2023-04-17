@@ -17,8 +17,8 @@ export const addOrder = async(order: IOrder, companyId: string) => {
         price: order.price || null,
         orderNumber: company.ordersNumber + 1 || 1
     }
-    const docRef = await addDoc(collection(db, 'orders'), newOrder)
-    await updateCompany({...company, ordersNumber: company?.ordersNumber + 1 || 1})
+    await addDoc(collection(db, 'orders'), newOrder)
+    await updateCompany({...company, ordersNumber: company?.ordersNumber + 1})
 }
 
 export const getOrders = async(company: string) => {

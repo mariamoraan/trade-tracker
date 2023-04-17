@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 `
 
 const Title = styled.h1`
-    margin-bottom: 4px;
+    margin-bottom: 12px;
 `
 
 const Text = styled.p`

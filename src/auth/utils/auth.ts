@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { firebaseAuthProvider } from "../../firebase";
 
 
@@ -28,6 +28,11 @@ export const firebaseSignInWithEmailAndPassword = async(email: string, password:
 export const firebaseSignOut = async() => {
     const auth = getAuth()
     await signOut(auth)
+}
+
+export const firebaseSendResetPasswordEmail = async(email: string) => {
+    const auth = getAuth()
+    await sendPasswordResetEmail(auth, email)
 }
 
 

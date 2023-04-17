@@ -30,7 +30,7 @@
     "total": "Total",
     "placeholder_price": "24.99€",
     "cancel": "Cancelar",
-    "order_print": "Hola, {{clientName}}, tu pedido estará listo el {{orderDelivery}}.\nDetalles del pedido:\n{{orderDescription}}",
+    "order_print": "Hola, {{client_name}}, tu pedido estará listo el {{order_date}}.\nDetalles del pedido:\n{{order_description}}",
     "greeting": "Hola, {{userName}}",
     "settings": "Ajustes",
     "change_language": "Cambiar idioma",
@@ -41,5 +41,9 @@
     "company_panel": "Panel de empresa",
     "company_employees": "Empleados",
     "add_order": "Nuevo pedido",
-    "introduce_company_code": "Escribe el código de empresa"
+    "introduce_company_code": "Escribe el código de empresa",
+    "change_default_message": "Cambiar el mensaje por defecto de los pedidos",
+    "order_id": "Nº Pedido",
+    "dont_remember_your_password": "¿No recuerdas tu contraseña?",
+    "recover_password": "Recuperar constraseña"
 }

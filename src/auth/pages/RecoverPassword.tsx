@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Form } from "../../common/components/Form";
 import { IForm, InputOnChangeElement } from "../../common/types/IForm";
-import { firebaseSignInWithEmailAndPassword } from "../utils/auth";
+import { firebaseSendResetPasswordEmail } from "../utils/auth";
 
 const Wrapper = styled.div`
     padding: 12px 24px;
@@ -17,14 +17,11 @@ const Wrapper = styled.div`
 
 const Title = styled.h1`
     margin-bottom: 12px;
+    text-align: center;
 `
 
 const Text = styled.p`
     margin-bottom: 24px;
-`
-
-const BottomText = styled.p`
-    margin-top: 24px;
 `
 
 const StyledLink = styled(Link)`
@@ -34,17 +31,23 @@ const StyledLink = styled(Link)`
     text-decoration: none;
 `
 
+const RecoverPasswordWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`
 
-const Login = () => {
+const RecoverPasswordButton = styled.button`
+`
+
+
+const RecoverPassword = () => {
     const [t] = useTranslation()
-    const [login, setLogin] = useState<{email: string, password: string}>({email: "", password: ""})
-
+    const [login, setLogin] = useState<{email: string}>({email: ""})
     const handleSubmit = async(e: FormEvent<HTMLElement>) => {
         e.preventDefault()
-        await firebaseSignInWithEmailAndPassword(login.email, login.password)
-        setLogin({email: "", password: ""})
+        await firebaseSendResetPasswordEmail(login.email)
+        setLogin({email: ""})
     }
-
     const loginForm: IForm = {
         inputs: [
             {
@@ -58,30 +61,17 @@ const Login = () => {
                 },
                 label: t("email")
             },
-            {
-                type: "label",
-                input : {
-                    name: "password",
-                    value: login?.password,
-                    type: "password",
-                    required: true,
-                    onChange: (e:  InputOnChangeElement) => setLogin({...login, password: e.target.value})
-                },
-                label: t("password")
-            },
         ],
         handleSubmit: handleSubmit,
-        submitText: t("log_in"),
+        submitText: t("recover_password"),
     }
-
     return (
         <Wrapper>
-            <Title>{t("log_in")}</Title>
+            <Title>{t("recover_password")}</Title>
             <Text>{t("dont_have_an_account")}<StyledLink to="/signup">{t("sign_up")}</StyledLink></Text>
             <Form {...loginForm} />
-            <BottomText>{t("dont_remember_your_password")}<StyledLink to="/recover-password">{t("recover_password")}</StyledLink></BottomText>
         </Wrapper>
     )
 }
 
-export default Login
+export default RecoverPassword

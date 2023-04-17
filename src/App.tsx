@@ -23,7 +23,7 @@ const App = () => {
     const onUserChange = (user: IUser | null) => {
       dispatch(userSlice.actions.updateUser({user: user}))
     }
-
+    
     useEffect(() => {
         onAuthStateChanged(firebaseAuthProvider, async(user) => {
             if (user) {

@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { NEXT_STEP } from "../../auth/pages/SignUp";
 import { firebaseSignOut } from "../../auth/utils/auth";
 import { updateUser } from "../../auth/utils/user";
-import { useAppSelector } from "../../redux/hooks";
-import { selectUser } from "../../redux/reducers/authReducer";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { selectUser, userSlice } from "../../redux/reducers/authReducer";
 import { getCompany, updateCompany } from "../utils/companiesManager";
 
 const Wrapper = styled.div`
@@ -70,6 +70,7 @@ const BackButton = styled.button`
 
 const JoinCompany = () => {
     const [t] = useTranslation()
+    const dispatch = useAppDispatch()
     const user = useAppSelector((state) => selectUser(state.user))
     const [companyCode, setCompanyCode] = useState("")
     const ref = useRef<HTMLFormElement | null>(null)
@@ -85,6 +86,7 @@ const JoinCompany = () => {
         if(!company) return
         await updateUser({...user, company: company.id, onboardState: NEXT_STEP.FINISHED})
         await updateCompany({...company, employees: [...company.employees, user.id]})
+        dispatch(userSlice.actions.updateUser({user: {...user, company: company.id, onboardState: NEXT_STEP.FINISHED}}))
     } 
     return (
         <Wrapper>

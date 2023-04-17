@@ -7,6 +7,7 @@ export interface ICompany {
     employees: string[],
     id: string,
     ordersNumber: number,
+    companyMessage: string
 }
 
 export const addCompany = async(company: ICompany): Promise<string> => {
@@ -21,7 +22,9 @@ export const updateCompany = async(company: ICompany) => {
         ownerId: company.ownerId,
         name: company.name,
         employees: company.employees,
-        id: company.id
+        id: company.id,
+        companyMessage: company.companyMessage,
+        ordersNumber: company.ordersNumber
     })
 }
 

@@ -30,7 +30,7 @@
     "total": "Total",
     "placeholder_price": "24.99$",
     "cancel": "Cancel",
-    "order_print": "Hey, {{clientName}}, your order will be ready on {{orderDelivery}}.\nDetails:\n{{orderDescription}}",
+    "order_print": "Hey, {{client_name}}, your order will be ready on {{order_date}}.\nDetails:\n{{order_description}}",
     "company_panel": "Company Panel",
     "personal_area": "Personal Area",
     "orders_panel": "Orders Panel",
@@ -41,5 +41,9 @@
     "english": "English",
     "spanish": "Spanish",
     "company_employees": "Employees",
-    "add_order": "Add order"
+    "add_order": "Add order",
+    "change_default_message": "Change default orders message",
+    "order_id": "Order ID",
+    "dont_remember_your_password": "Don't remember your password?",
+    "recover_password": "Recover password"
 }

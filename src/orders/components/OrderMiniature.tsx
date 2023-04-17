@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { useTranslation } from "react-i18next";
 import styled, { keyframes } from "styled-components";
 
+import { useAppSelector } from '../../redux/hooks';
+import { selectCompanyMessage } from '../../redux/reducers/companyReducer';
+import { TagCodes } from '../../user/pages/Settings';
 import { dateToFormattedStringOrDay, stringToFormattedDate } from "../utils/dates";
 import { deleteOrder } from '../utils/ordersManager';
 import { EditableOrderMiniature } from './EditableOrderMiniature';
@@ -191,16 +194,17 @@ type VisualModeProps = {
 const OrderMiniatureVisual = (props: VisualModeProps) => {
     const {t, i18n} = useTranslation()
     const {description, deliveryDate, isClosed, client, id, price, orderNumber} = props.order
+    const companyMessage = useAppSelector((state) => selectCompanyMessage(state.company))
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const onCopy = () => {
         let date = t(stringToFormattedDate(deliveryDate, i18n.language))
-        const text = `${t("order_print", {
-            clientName: client.name,
-            orderDelivery: date,
-            orderDescription: description,
-            interpolation: {escapeValue: false}
-        })}`
-        // stringToFormattedDate(deliveryDate, i18n.language)
+        let text = companyMessage
+        text = text.replaceAll(TagCodes.price, price || '')
+        text = text.replaceAll(TagCodes.clientName, client.name)
+        text = text.replaceAll(TagCodes.clientPhone, client.phone)
+        text = text.replaceAll(TagCodes.orderId, `#${orderNumber}`)
+        text = text.replaceAll(TagCodes.orderDate, date)
+        text = text.replaceAll(TagCodes.orderDescription, description)
         navigator.clipboard.writeText(text)
         setIsMenuOpen(false)
     }
