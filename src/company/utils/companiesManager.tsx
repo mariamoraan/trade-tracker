@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export interface ICompany {
@@ -40,7 +40,21 @@ export const getCompany = async(id: string) =>  {
 }
 
 export const companySnapshot = async(companyId: string, update: (company: ICompany) => void) => {
-    let company = await getCompany(companyId)
-    if (!company) return
-    update(company)
+    const q = query(collection(db, "companies"), where("id", "==", companyId));
+    onSnapshot(q, (querySnapshot) => {
+    const companies: ICompany[] = [];
+    querySnapshot.forEach((doc) => {
+        companies.push(
+            {
+                ownerId: doc.data().ownerId,
+                name: doc.data().name,
+                employees: doc.data().employees,
+                id: doc.data().id,
+                companyMessage: doc.data().companyMessage,
+                ordersNumber: doc.data().ordersNumber
+            }
+        );
+    });
+    update(companies[0])
+    });
 }

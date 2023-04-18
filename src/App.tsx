@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { IUser, OnboardStateTypes, getUser, userSnapshot } from "./auth/utils/user";
 import JoinCompany from "./company/pages/JoinCompany";
 import NewCompany from "./company/pages/NewCompany";
-import { getCompany } from "./company/utils/companiesManager";
+import { ICompany, companySnapshot, getCompany } from "./company/utils/companiesManager";
 import { firebaseAuthProvider } from "./firebase";
 import './i18n';
 import './index.css';
@@ -22,6 +22,10 @@ const App = () => {
 
     const onUserChange = (user: IUser | null) => {
       dispatch(userSlice.actions.updateUser({user: user}))
+    }
+
+    const onCompanyChange = (company: ICompany | null)  => {
+      dispatch(companySlice.actions.setUpCompany({company: company}))
     }
     
     useEffect(() => {
@@ -49,6 +53,14 @@ const App = () => {
       }
       userSnapshot(userId, onUserChange)
     }, [])
+
+    useEffect(() => {
+      if(company === null) {
+        onCompanyChange(null)
+        return
+      }
+      companySnapshot(company, onCompanyChange)
+    }, [userId])
 
     if (user && !company &&  nextStep === OnboardStateTypes.CREATE_COMPANY) return <NewCompany />
     if (user && !company &&  nextStep === OnboardStateTypes.JOIN_COMPANY) return <JoinCompany />
